@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "sort.h"
 
 void shell_sort(int *array, size_t size) {
   int interval, i, j, temp;
