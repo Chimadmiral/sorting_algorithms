@@ -22,27 +22,34 @@ void swap_ints(int *a, int *b)
  *
  * Description: Uses the Knuth interval sequence.
  */
+
 void shell_sort(int *array, size_t size)
 {
-	size_t gap, i, j;
+    size_t interval = 1;
+    while (interval < size / 3)
+        interval = interval * 3 + 1;
 
-	if (array == NULL || size < 2)
-		return;
+    while (interval > 0)
+    {
+        for (size_t outer = interval; outer < size; outer++)
+        {
+            int value = array[outer];
+            size_t inner = outer;
 
-	for (gap = 1; gap < (size / 3);)
-		gap = gap * 3 + 1;
+            while (inner > interval - 1 && array[inner - interval] >= value)
+            {
+                array[inner] = array[inner - interval];
+                inner -= interval;
+            }
 
-	for (; gap >= 1; gap /= 3)
-	{
-		for (i = gap; i < size; i++)
-		{
-			j = i;
-			while (j >= gap && array[j - gap] > array[j])
-			{
-				swap_ints(array + j, array + (j - gap));
-				j -= gap;
-			}
-		}
-		print_array(array, size);
-	}
+            array[inner] = value;
+        }
+
+        printf("Interval: %lu\n", interval);
+        for (size_t i = 0; i < size; i++)
+            printf("%d ", array[i]);
+        printf("\n");
+
+        interval = (interval - 1) / 3;
+    }
 }
